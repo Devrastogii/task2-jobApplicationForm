@@ -82,8 +82,9 @@ function App() {
     const inputTime = new Date(combinedDateTimeString);
     const currentTimeMs = currentDate.getHours() * 3600000 + currentDate.getMinutes() * 60000;
     const inputTimeMs = inputTime.getHours() * 3600000 + inputTime.getMinutes() * 60000;
-
-    console.log(inputTime, inputTimeMs, currentTimeMs);
+        
+    const utcDate1 = new Date(Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate()));
+    const utcDate2 = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
 
     if (name == '') { showEmptyMessage('Name') }
     else if (email == '') { showEmptyMessage('Email') }
@@ -95,10 +96,10 @@ function App() {
     else if (!validateName(name)) { showInvalidMessage('Name') }
     else if (!validateEmail(email)) { showInvalidMessage('Email') }
     else if (!validatePhone(phone)) { showInvalidMessage('Phone') }
-    else if (exp <= 0) { showInvalidMessage('Experience') }
+    else if (role == 'Developer' && exp <= 0) { showInvalidMessage('Experience') }
     else if (role == 'Manager' && mexp <= 0) { showInvalidMessage('Managerial Experience') }
     else if (role == 'Designer' && !validateUrl(url)) { showInvalidMessage('Url') }
-    else if (inputDate < currentDate) { showInvalidMessage('Date') }
+    else if (utcDate1 < utcDate2) { showInvalidMessage('Date') }
     else if (inputTimeMs < currentTimeMs) { showInvalidMessage('Time') } 
 
     if (isValid) { showSuccessMessage(); onOpen() }
